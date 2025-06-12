@@ -75,7 +75,7 @@
             {
                 "type": 6,
                 "name": "mvpuChatHoverMain",
-                "value": true
+                "value": false
             }
         ]
     },
@@ -134,7 +134,7 @@
             {
                 "type": 6,
                 "name": "packetlossDetector",
-                "value": true
+                "value": false
             },
             {
                 "type": 6,

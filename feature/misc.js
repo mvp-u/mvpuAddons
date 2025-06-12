@@ -10,3 +10,12 @@ register("actionBar", () => {
     if (!enoughMana) Client.scheduleTask(100, () => enoughMana = true)
     }
 }).setCriteria("NOT ENOUGH MANA").setContains()
+
+register('command', (item) => {
+    if (item != undefined) {
+        ChatLib.command('bz ' + item)
+    }
+    else {
+        ChatLib.command('bz')
+    }
+} ).setName('b')

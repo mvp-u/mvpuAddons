@@ -2,7 +2,7 @@
     "name": "mvpuAddons",
     "creator": "mvpu",
     "description": "mvpuAddons V2 ft. actual config",
-    "version": "2.0.4",
+    "version": "2.0.51",
     "entry": "index.js",
-    "dependencies": ["Amaterasu", "requestV2"]
+    "dependencies": ["Amaterasu", "requestV2", "BloomCore"]
   }

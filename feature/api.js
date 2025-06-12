@@ -1,5 +1,6 @@
 import { request } from '../../requestV2'
 import { getLevel, formatTime } from '../HELP';
+import { copyToClipboard } from './modlist';
 // request({
 //     url: "https://addons.mvpu.cc/someEndpoint",
 //     method: "POST|GET",
@@ -17,7 +18,7 @@ register('command', (username) => {
 }).setName('md')
 export function checkCata(username) {
     const req = request({
-        url: `https://api.minetools.eu/uuid/${username}`, //mojang api was down while making ts
+        url: `https://api.minecraftservices.com/minecraft/profile/lookup/name/${username}`, //mojang api was down while making ts
         method: 'GET'
     }).then(data => {
         const a = JSON.parse(data)
@@ -44,7 +45,28 @@ export function checkCata(username) {
                         
                         const Secrets = profile.members[a.id].dungeons.secrets
                         const SPR = Secrets / TotalComps
-                        ChatLib.chat(mvpu + `&c${username}'s Cata LVL: &6${cataLVL}\n${mvpu}&cF7: &6${F7PB}\n${mvpu}&cM7: &6${M7PB}\n${mvpu}&cSecrets (spr): &6${Secrets} &6(&7${SPR.toFixed(2)}&6)`)
+                        const hoverText = "Click to run /p " + username;
+                        const summary = `[mvpu] ${username}'s Summary | Cata: ${cataLVL} | F7: ${F7PB} | M7: ${M7PB} | Secrets (SPR): ${Secrets} (${SPR.toFixed(2)}) `
+                        const msg = new Message()
+                        .addTextComponent(new TextComponent(`${mvpu}&c${username}'s Cata LVL: &6${cataLVL}\n`)
+                            .setClick("run_command", `/p ${username}`)
+                            .setHover("show_text", hoverText))
+                        .addTextComponent(new TextComponent(`${mvpu}&cF7: &6${F7PB}\n`)
+                            .setClick("run_command", `/p ${username}`)
+                            .setHover("show_text", hoverText))
+                        .addTextComponent(new TextComponent(`${mvpu}&cM7: &6${M7PB}\n`)
+                            .setClick("run_command", `/p ${username}`)
+                            .setHover("show_text", hoverText))
+                        .addTextComponent(new TextComponent(`${mvpu}&cSecrets (spr): &6${Secrets} &6(&7${SPR.toFixed(2)}&6)`)
+                            .setClick("run_command", `/p ${username}`)
+                            .setHover("show_text", hoverText))
+                        .addTextComponent(new TextComponent(`\n${mvpu}&b[Copy to Clipboard]`)
+                            .setClick("run_command", `/mvpucopytoclipboardcommand ${summary}`)
+                            .setHover("show_text", "Copy Summary to clipboard"));
+                        
+
+                        msg.chat();
+
                     }
                     
                 });
@@ -52,3 +74,7 @@ export function checkCata(username) {
         }
     )
 }
+register("command", (...args) => {
+    const text = args.join(" ");
+    copyToClipboard(text)
+}).setName('mvpucopytoclipboardcommand')
